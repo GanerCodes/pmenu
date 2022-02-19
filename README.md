@@ -1,3 +1,5 @@
+<h3>This is a fork of pmenu that simply allows you to have keyboard shortcuts for a slice. See line 4 of pmenu.sh for an example.</h3>
+
 # πmenu
 
 <p align="center">
