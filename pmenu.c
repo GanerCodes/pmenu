@@ -1598,7 +1598,7 @@ selectslice:
 				prevmenu = mapmenu(currmenu, prevmenu);
 			} else {
 				struct Slice *slc;
-				for(slc = menu->list; slc != NULL; slc = slc->next) {
+				for(slc = currmenu->list; slc != NULL; slc = slc->next) {
 					if(
 						strlen(slc->label) > 3 &&
 						slc->label[1] == 32 &&
