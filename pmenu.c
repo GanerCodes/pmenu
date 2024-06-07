@@ -1694,8 +1694,10 @@ int main(int argc, char *argv[]) {
 	initatoms();
 
 	/* if running in root mode, get button presses from root window */
-	if(rflag)
+	if(rflag) {
 		XGrabButton(dpy, button, AnyModifier, rootwin, False, ButtonPressMask, GrabModeSync, GrabModeSync, None, None);
+		XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("A")), Mod4Mask, rootwin, True, GrabModeAsync, GrabModeAsync);
+	}
 
 	/* generate menus and set them up */
 	rootmenu = parse(stdin, 0);
@@ -1708,10 +1710,14 @@ int main(int argc, char *argv[]) {
 	do {
 		if(rflag)
 			XNextEvent(dpy, &ev);
-		if(!rflag ||
-		    (ev.type == ButtonPress &&
-		     ((modifier && ev.xbutton.state == modifier) ||
-		      (ev.xbutton.subwindow == None)))) {
+		if(	   !rflag
+			|| (ev.type == ButtonPress
+				&& (    (modifier && ev.xbutton.state == modifier)
+					 || (ev.xbutton.subwindow == None)))
+			|| (ev.type == KeyPress
+                && ev.xkey.keycode == XKeysymToKeycode(dpy, XStringToKeysym("A"))
+                && (ev.xkey.state & Mod4Mask))
+		) {
 			if(rflag && pflag) {
 				XAllowEvents(dpy, ReplayPointer, CurrentTime);
 			}
