@@ -1599,13 +1599,11 @@ selectslice:
 			} else {
 				struct Slice *slc;
 				for(slc = currmenu->list; slc != NULL; slc = slc->next) {
-					if(
-						strlen(slc->label) > 3 &&
-						slc->label[1] == 32 &&
-						slc->label[2] == 45 &&
-						slc->label[3] == 32 &&
-						slc->label[0] == (char)ksym
-					) {
+					if(		strlen(slc->label) > 3
+					   		&& slc->label[1] == 32
+					   		&& slc->label[2] == 45
+					   		&& slc->label[3] == 32
+					   		&& slc->label[0] == (char)(ksym - 32*(ev.xkey.state & ShiftMask))) {
 						currmenu->selected = slc;
 						slice = currmenu->selected;
 						goto selectslice;
